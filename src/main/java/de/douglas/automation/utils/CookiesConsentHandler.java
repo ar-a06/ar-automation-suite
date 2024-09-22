@@ -11,10 +11,10 @@ public class CookiesConsentHandler {
             WebElement userRoot=driver.findElement(By.id("usercentrics-root"));
             SearchContext shadowRoot=userRoot.getShadowRoot();
             shadowRoot.findElement(By.cssSelector("button.sc-dcJsrY.eIFzaz")).click();
-            ExtentReportUtils.log("Cookies consent overlay handled.");
+            System.out.println("Cookies consent overlay handled.");
 
         }catch (NoSuchElementException e) {
-            ExtentReportUtils.log("Cookies consent overlay did not appear.");
+            System.out.println("Cookies consent overlay did not appear.");
         }
     }
 }
