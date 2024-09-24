@@ -41,7 +41,7 @@ public class ParfumPageTest extends BaseTest {
 
     @Test(dataProvider = "filterData")
     public void testFiltersWithDataProviderOnePossibleCombination(String criteria, String marke, String produktart, String geschenkFur, String furWen) {
-        ExtentTest test = ExtentReportUtils.createReport().createTest("testFiltersWithDataProviderOnePossibleCombination");
+        ExtentTest test = ExtentReportUtils.createReport().createTest("testFiltersWithDataProviderOnePossibleCombination: "+criteria);
         ExtentReportUtils.setTest(test);
 
         Map<String, String> expectedUrlSegments = null;
@@ -87,6 +87,9 @@ public class ParfumPageTest extends BaseTest {
                         currentUrl = driver.getCurrentUrl();
                         ExtentReportUtils.asserts(currentUrl.contains(expectedUrlSegments.get(headers[0])), "Expected segment in the URL for filter: " + headers[i]);
 
+                        parfumPage.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(parfumPage.getAllAppliedFilters(), initialAppliedFilterCount));
+                        parfumPage.getWait().until(ExpectedConditions.numberOfElementsToBeMoreThan(parfumPage.getCheckIconsWhenFilterApplied(), initialCheckIconCount));
+
                         int newAppliedFilterCount = driver.findElements(parfumPage.getAllAppliedFilters()).size();
                         int newCheckIconCount = driver.findElements(parfumPage.getCheckIconsWhenFilterApplied()).size();
 
@@ -102,6 +105,9 @@ public class ParfumPageTest extends BaseTest {
 
                 parfumPage.uncheckCheckedCheckbox(headers[i]);
                 parfumPage.getWait().until(ExpectedConditions.visibilityOfElementLocated(parfumPage.getFilterSectionLocator()));
+
+                parfumPage.getWait().until(ExpectedConditions.numberOfElementsToBeLessThan(parfumPage.getAllAppliedFilters(), initialAppliedFilterCount));
+                parfumPage.getWait().until(ExpectedConditions.numberOfElementsToBeLessThan(parfumPage.getCheckIconsWhenFilterApplied(), initialCheckIconCount));
 
                 int newAppliedFilterCount = driver.findElements(parfumPage.getAllAppliedFilters()).size();
                 int newCheckIconCount = driver.findElements(parfumPage.getCheckIconsWhenFilterApplied()).size();
@@ -126,7 +132,7 @@ public class ParfumPageTest extends BaseTest {
 
     @Test(dataProvider = "filterData")
     public void testFiltersWithDataProviderAllPossibleCombination(String criteria, String marke, String produktart, String geschenkFur, String furWen) {
-        ExtentTest test = ExtentReportUtils.createReport().createTest("testFiltersWithDataProviderAllPossibleCombination");
+        ExtentTest test = ExtentReportUtils.createReport().createTest("testFiltersWithDataProviderAllPossibleCombination: "+criteria);
         ExtentReportUtils.setTest(test);
 
         Map<String, String> expectedUrlSegments = null;
@@ -209,7 +215,7 @@ public class ParfumPageTest extends BaseTest {
 
     @Test(dataProvider = "filterDataFromHighlight")
     public void testFilterOnHighlights(String highlight) {
-        ExtentTest test = ExtentReportUtils.createReport().createTest("filterDataFromHighlight");
+        ExtentTest test = ExtentReportUtils.createReport().createTest("filterDataFromHighlight: "+highlight);
         ExtentReportUtils.setTest(test);
 
         Map<String, String> expectedUrlSegments = null;
